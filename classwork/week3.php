@@ -126,7 +126,7 @@
 <body>
     <div class="container">
         <h1>Student Registration</h1>
-        <form action="student_data.php" method="POST">
+        <form action="student_registration.php" method="POST">
             <div class="form-group">
                 <label for="fname">First Name:</label>
                 <input type="text" id="fname" name="fname" placeholder="Enter your first name" required>
