@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.ivykimani.fragmentnavigationlab.HomeFragment"
+        android:label="Home">
+        <action
+            android:id="@+id/action_home_to_details"
+            app:destination="@id/bookDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/bookDetailsFragment"
+        android:name="com.example.fragmentnavigationlab.BookDetailsFragment"
+        android:label="Book Details">
+        <action
+            android:id="@+id/action_details_to_addReview"
+            app:destination="@id/addReviewFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addReviewFragment"
+        android:name="com.example.fragmentnavigationlab.AddReviewFragment"
+        android:label="Add Review">
+        <action
+            android:id="@+id/action_addReview_to_home"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+</navigation>
