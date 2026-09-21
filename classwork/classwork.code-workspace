@@ -7,5 +7,7 @@
 			"path": "../CatPhotoApp"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "CatPhotoApp"
+	}
 }
