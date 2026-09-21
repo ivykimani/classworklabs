@@ -24,17 +24,43 @@
          'link' => "example.com"],
         ['name' => "The Catcher in the Rye",
          'author' => "J.D. Salinger",
+         'link' => "example.com"],
+         ['name' => "Franny and Zooey",
+         'author' => "J.D. Salinger",
          'link' => "example.com"]
     ];
+
+    function filterByAuthor($books) {
+        // Filter books by author
+        $filteredBooks = [];
+        foreach ($books as $book) {
+            if ($book['author'] === 'J.D. Salinger') {
+                $filteredBooks[] = $book;
+            }
+        }
+        return $filteredBooks;
+    }
     ?>
 
     <ul>
-        <?php foreach ($books as $book) : ?>
+        <?php foreach (filterByAuthor($books) as $book) : ?>
             <li>
                 <a href="<?= $book['link'] ?>">
-                    <?= $book['name'] ?></a>
-            </li>    
+                    <?= $book['name']; ?> - By <?= $book['author'] ?>)
+                </a>
+        </li> 
+
+            <!-- <?php if ($book['author'] == 'J.D. Salinger') : ?>
+
+         <li>
+                <a href="<?= $book['link'] ?>">
+                    <?= $book['name']; ?> - By <?= $book['author'] ?>)
+                </a>
+        </li> 
+            <?php endif; ?> -->
     <?php endforeach; ?>
     </ul>
+
+    
 </body>
 </html>
