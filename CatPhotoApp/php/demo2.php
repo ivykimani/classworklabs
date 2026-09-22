@@ -27,23 +27,28 @@
          'link' => "example.com"],
          ['name' => "Franny and Zooey",
          'author' => "J.D. Salinger",
+         'link' => "example.com"],
+         ['name' => "Nine Stories",
+         'author' => "J.D. Salinger",
          'link' => "example.com"]
     ];
 
-    function filterByAuthor($books) {
+    $filterByAuthor = function ($books, $author) {
         // Filter books by author
         $filteredBooks = [];
+
         foreach ($books as $book) {
-            if ($book['author'] === 'J.D. Salinger') {
+            if ($book['author'] === $author) {
                 $filteredBooks[] = $book;
             }
         }
         return $filteredBooks;
-    }
+    };
+     $filteredBooks = $filterByAuthor($books, 'J.D. Salinger');
     ?>
 
     <ul>
-        <?php foreach (filterByAuthor($books) as $book) : ?>
+        <?php foreach ($filteredBooks as $book) : ?>
             <li>
                 <a href="<?= $book['link'] ?>">
                     <?= $book['name']; ?> - By <?= $book['author'] ?>)
