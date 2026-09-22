@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Data Entry Form</title>
-<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="../Css/styles.css">
 </head>
 <body>
 
@@ -12,7 +12,7 @@
     <h2>Student Registration Form</h2>
     <p>Fill out the fields below to add a new profile to the management database.</p>
     
-    <form action="includes/register.php" method="POST">
+    <form action="../Include/register.php" method="POST">
       
       <!-- Row 1: Names -->
       <div class="form-row">
@@ -80,6 +80,14 @@
         <div class="form-group full-width">
           <label for="address">Residential Address</label>
           <textarea id="address" name="address" placeholder="Street name, City, Postal Code" required></textarea>
+        </div>
+      </div>
+
+      <!-- Row 6: Admission Number -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="admno">Admission Number</label>
+          <input type="text" id="admno" name="admno" placeholder="e.g., ADM-2026-889" required>
         </div>
       </div>
 
