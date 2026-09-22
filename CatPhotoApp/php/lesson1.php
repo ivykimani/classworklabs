@@ -79,7 +79,19 @@
         echo floor(4.8);// echo floor(4.8) would round the number down to the nearest integer
         echo "<br>";
         ?>
-        <?php
-        ?>
+        
+         <form action="lesson1.php" method="GET">
+            Name: <input type="text" id="name" name="name" placeholder="Enter your name">
+            Age: <input type="number" id="age" name="age" placeholder="Enter your age">
+            <input type="submit" value="submit">
+         </form>
+         <br>
+         <?php
+          echo $_GET["name"]; // echo the value of the 'name' parameter from the GET request
+          echo "<br>";
+          echo $_GET["age"];// echo the value of the 'age' parameter from the GET request
+
+         ?>
+        
     </body>
 </html>
