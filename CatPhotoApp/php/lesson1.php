@@ -81,8 +81,11 @@
         ?>
         
          <form action="lesson1.php" method="GET">
-            Name: <input type="text" id="name" name="name" placeholder="Enter your name">
-            Age: <input type="number" id="age" name="age" placeholder="Enter your age">
+            Name: <input type="text" id="name" name="name" placeholder="Enter your name"><br>
+            Age: <input type="number" id="age" name="age" placeholder="Enter your age"><br>
+         </form>
+         <form action="lesson1.php" method="post">
+            Password: <input type="password" name="password" id="password" placeholder="Enter your password"><br>
             <input type="submit" value="submit">
          </form>
          <br>
@@ -90,6 +93,8 @@
           echo $_GET["name"]; // echo the value of the 'name' parameter from the GET request
           echo "<br>";
           echo $_GET["age"];// echo the value of the 'age' parameter from the GET request
+          echo "<br>";
+          echo $_POST["password"];// echo the value of the 'password' parameter from the POST request
 
          ?>
         
