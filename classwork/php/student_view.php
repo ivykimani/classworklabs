@@ -126,6 +126,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_student'])) {
         .btn-view:hover {
             background-color: #2980b9;
         }
+
+        .btn-edit {
+            background-color: #8e6c19;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background-color: #715515;
+        }
  
         .btn-delete {
             background-color: #e74c3c;
@@ -243,4 +252,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_student'])) {
  
 </body>
 </html>
+
+<!--
+    This page displays student records from tbl_students in a directory.
+    It links to the registration form, opens an individual record, and provides
+    links to edit or confirm deletion of a student record.
+-->
+
 

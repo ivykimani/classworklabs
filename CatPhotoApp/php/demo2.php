@@ -37,6 +37,7 @@
         // Filter books by author
         $filteredBooks = [];
 
+        /*Loop through each book and filter by author*/ 
         foreach ($books as $book) {
             if ($book['author'] === $author) {
                 $filteredBooks[] = $book;

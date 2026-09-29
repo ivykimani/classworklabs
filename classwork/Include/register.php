@@ -1,7 +1,10 @@
 <?php
-require 'sql.php';// Include the database connection file
+// Load the shared database connection, which creates the $conn MySQLi object.
+require 'sql.php';
 
+// The form's submit button sends this request using POST.
 if(isset($_POST["submit_student"])) {
+    // Read submitted values and remove extra whitespace from their edges.
     $fname = trim($_POST["firstName"]);
     $lname = trim($_POST["lastName"]);
     $dob = trim($_POST["dob"]);
@@ -13,34 +16,53 @@ if(isset($_POST["submit_student"])) {
     $address = trim($_POST["address"]);
     $admno = trim($_POST["admno"]);
 
+    // Check for an existing admission number or email before inserting a new row.
+    // A prepared statement keeps submitted values separate from the SQL command.
     $query = "SELECT * FROM tbl_students WHERE admno = ? OR email = ?";
     $stmt1 = $conn->prepare($query);
+
+    // The ? marks are placeholders; "ss" tells MySQLi both values are strings.
     $stmt1->bind_param("ss", $admno, $email);
+
+    // Run the duplicate check and store its rows so num_rows can be checked.
     $stmt1->execute();
     $stmt1->store_result();
+
+    // If any row matched, stop so the same admission number or email is not reused.
     if($stmt1->num_rows > 0) {
         echo "<script>alert('Student with this Admission Number or Email already exists.');</script>";
         $stmt1->close();
         $conn->close();
         exit();
     }
+
+    // Release resources used by the duplicate-check statement.
     $stmt1->close();
 
-
+    // Insert the validated form data. Each ? corresponds to one column value.
     $sql = "INSERT INTO tbl_students (firstname, lastname, dob, gender, email, phone, grade, studentId, address, admno) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);// Prepare the SQL statement to prevent SQL injection
+
+    // prepare() creates the statement; bind_param() supplies the 10 string values.
+    // This prevents user input from being interpreted as part of the SQL command.
+    $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssssssssss", $fname, $lname, $dob, $gender, $email, $phone, $grade, $studentId, $address, $admno);
 
+    // execute() runs the insert. It returns true on success and false on failure.
     if($stmt->execute()) {
         echo "<script>alert('Student registered successfully.');</script>";
     } else {
         echo "<script>alert('Error: " . $stmt->error . "');</script>";
     }
+
+    // Close the prepared statement and database connection when this request is done.
     $stmt->close();
     $conn->close();
 
+    // These old calls are unnecessary because execute() and close() already ran above.
     //$stmt->execute();
     //$stmt->close();    
 }
 ?>
+
+

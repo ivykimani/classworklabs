@@ -2,8 +2,9 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Simple Calculator</title>
-    </head>
+        </head>
     <body>
         <h1>Simple Calculator</h1>
         <form action="simple_calculator.php" method="get">
