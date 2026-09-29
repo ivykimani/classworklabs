@@ -5,22 +5,6 @@ require __DIR__ . '/../Include/sql.php';
 // An optional id query parameter selects one student instead of the full directory.
 $selectedId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
-// Deletion is handled only after the row's confirmation form submits a POST request.
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_student'])) {
-    $deleteId = filter_input(INPUT_POST, 'student_id', FILTER_VALIDATE_INT);
-
-    if ($deleteId) {
-        // Bind the row ID as an integer so it is treated as data, not SQL code.
-        $statement = $conn->prepare('DELETE FROM tbl_students WHERE id = ?');
-        $statement->bind_param('i', $deleteId);
-        $statement->execute();
-        $statement->close();
-    }
-
-    // Redirect after POST so refreshing the directory does not repeat the delete request.
-    header('Location: student_view.php');
-    exit;
-}
 ?>
 
 <!DOCTYPE html>
@@ -242,7 +226,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_student'])) {
                                     <a class="btn-action btn-view" href="student_view.php?id=<?php echo (int) $student['id']; ?>">View</a>
                                     <a class="btn-action btn-edit" href="student_edit.php?id=<?php echo (int) $student['id']; ?>">Edit</a>
                                 <?php endif; ?>
-                                <form method="POST" action="student_view.php" style="display: inline;" onsubmit="return confirm('Delete this student record?');">
+                                <form method="POST" action="../Include/delete.php" style="display: inline;" onsubmit="return confirm('Delete this student record?');">
                                     <input type="hidden" name="student_id" value="<?php echo (int) $student['id']; ?>">
                                     <button class="btn-action btn-delete" type="submit" name="delete_student">Delete</button>
                                 </form>
