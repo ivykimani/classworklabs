@@ -1,3 +1,4 @@
+<!-- Registration form: its field names become keys in PHP's $_POST array. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +13,7 @@
     <h2>Student Registration Form</h2>
     <p>Fill out the fields below to add a new profile to the management database.</p>
     
+    <!-- POST sends the submitted fields to the PHP handler without putting them in the URL. -->
     <form action="../Include/register.php" method="POST">
       
       <!-- Row 1: Names -->

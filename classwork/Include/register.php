@@ -16,21 +16,21 @@ if(isset($_POST["submit_student"])) {
     $address = trim($_POST["address"]);
     $admno = trim($_POST["admno"]);
 
-    // Check for an existing admission number or email before inserting a new row.
+    // Check for an existing student ID, admission number, or email before inserting a row.
     // A prepared statement keeps submitted values separate from the SQL command.
-    $query = "SELECT * FROM tbl_students WHERE admno = ? OR email = ?";
+    $query = "SELECT id FROM tbl_students WHERE admno = ? OR email = ? OR studentId = ?";
     $stmt1 = $conn->prepare($query);
 
-    // The ? marks are placeholders; "ss" tells MySQLi both values are strings.
-    $stmt1->bind_param("ss", $admno, $email);
+    // The ? marks are placeholders; "sss" tells MySQLi all three values are strings.
+    $stmt1->bind_param("sss", $admno, $email, $studentId);
 
     // Run the duplicate check and store its rows so num_rows can be checked.
     $stmt1->execute();
     $stmt1->store_result();
 
-    // If any row matched, stop so the same admission number or email is not reused.
+    // If any row matched, stop so the student ID, admission number, or email is not reused.
     if($stmt1->num_rows > 0) {
-        echo "<script>alert('Student with this Admission Number or Email already exists.');</script>";
+        echo "<script>alert('A student with this Student ID, Admission Number, or Email already exists.');</script>";
         $stmt1->close();
         $conn->close();
         exit();

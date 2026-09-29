@@ -1,18 +1,23 @@
 <?php
+// Reuse the project's shared MySQLi connection.
 require __DIR__ . '/../Include/sql.php';
 
+// An optional id query parameter selects one student instead of the full directory.
 $selectedId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
+// Deletion is handled only after the row's confirmation form submits a POST request.
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_student'])) {
     $deleteId = filter_input(INPUT_POST, 'student_id', FILTER_VALIDATE_INT);
 
     if ($deleteId) {
+        // Bind the row ID as an integer so it is treated as data, not SQL code.
         $statement = $conn->prepare('DELETE FROM tbl_students WHERE id = ?');
         $statement->bind_param('i', $deleteId);
         $statement->execute();
         $statement->close();
     }
 
+    // Redirect after POST so refreshing the directory does not repeat the delete request.
     header('Location: student_view.php');
     exit;
 }
@@ -198,6 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_student'])) {
                 <tbody>
 
                 <?php
+                // Use a prepared query for one record, or a regular query for the full directory.
                 if ($selectedId) {
                     $statement = $conn->prepare(
                         'SELECT id, firstname, lastname, dob, gender, email, phone, grade, studentId, address, admno
@@ -222,6 +228,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_student'])) {
                 <?php else: ?>
                     <?php while ($student = $result->fetch_assoc()): ?>
                         <tr>
+                            <!-- Escape database values before placing them in HTML. -->
                             <td><strong><?php echo htmlspecialchars($student['studentId']); ?></strong></td>
                             <td><?php echo htmlspecialchars($student['firstname']); ?></td>
                             <td><?php echo htmlspecialchars($student['lastname']); ?></td>

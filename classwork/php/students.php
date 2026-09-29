@@ -1,4 +1,5 @@
 <?php
+// Reuse the shared database connection and fetch the records for the list below.
 require __DIR__ . '/../Include/sql.php';
 
 $result = $conn->query(
@@ -71,8 +72,10 @@ $result = $conn->query(
                 </tr>
             </thead>
             <tbody>
+                <!-- fetch_assoc() returns one database row at a time as an associative array. -->
                 <?php while ($student = $result->fetch_assoc()): ?>
                     <tr>
+                        <!-- Escape database values before rendering them as HTML text. -->
                         <td><?php echo htmlspecialchars($student['firstname']); ?></td>
                         <td><?php echo htmlspecialchars($student['lastname']); ?></td>
                         <td><?php echo htmlspecialchars($student['dob']); ?></td>
