@@ -14,23 +14,22 @@ if(isset($_POST["submit_student"])) {
     $grade = trim($_POST["gradeLevel"]);
     $studentId = trim($_POST["studentId"]);
     $address = trim($_POST["address"]);
-    $admno = trim($_POST["admno"]);
 
-    // Check for an existing student ID, admission number, or email before inserting a row.
+    // Check that the student number is not already assigned to another record.
     // A prepared statement keeps submitted values separate from the SQL command.
-    $query = "SELECT id FROM tbl_students WHERE admno = ? OR email = ? OR studentId = ?";
+    $query = "SELECT id FROM tbl_students WHERE studentId = ?";
     $stmt1 = $conn->prepare($query);
 
-    // The ? marks are placeholders; "sss" tells MySQLi all three values are strings.
-    $stmt1->bind_param("sss", $admno, $email, $studentId);
+    // The ? is a placeholder; "s" tells MySQLi the student number is a string.
+    $stmt1->bind_param("s", $studentId);
 
     // Run the duplicate check and store its rows so num_rows can be checked.
     $stmt1->execute();
     $stmt1->store_result();
 
-    // If any row matched, stop so the student ID, admission number, or email is not reused.
+    // If a row matched, stop so this student number cannot be reused.
     if($stmt1->num_rows > 0) {
-        echo "<script>alert('A student with this Student ID, Admission Number, or Email already exists.');</script>";
+        echo "<script>alert('A student with this Student Number already exists.');</script>";
         $stmt1->close();
         $conn->close();
         exit();
@@ -40,13 +39,13 @@ if(isset($_POST["submit_student"])) {
     $stmt1->close();
 
     // Insert the validated form data. Each ? corresponds to one column value.
-    $sql = "INSERT INTO tbl_students (firstname, lastname, dob, gender, email, phone, grade, studentId, address, admno) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO tbl_students (firstname, lastname, dob, gender, email, phone, grade, studentId, address) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    // prepare() creates the statement; bind_param() supplies the 10 string values.
+    // prepare() creates the statement; bind_param() supplies the 9 string values.
     // This prevents user input from being interpreted as part of the SQL command.
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssssss", $fname, $lname, $dob, $gender, $email, $phone, $grade, $studentId, $address, $admno);
+    $stmt->bind_param("sssssssss", $fname, $lname, $dob, $gender, $email, $phone, $grade, $studentId, $address);
 
     // execute() runs the insert. It returns true on success and false on failure.
     if($stmt->execute()) {

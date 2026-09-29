@@ -27,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_student'])) {
     $grade = trim($_POST['grade'] ?? '');
     $studentCode = trim($_POST['studentId'] ?? '');
     $address = trim($_POST['address'] ?? '');
-    $admissionNumber = trim($_POST['admno'] ?? '');
 
     if (!$studentId) {
         http_response_code(400);
@@ -36,22 +35,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_student'])) {
 
     if ($firstName === '' || $lastName === '' || $dob === '' || $gender === '' ||
         $email === '' || $phone === '' || $grade === '' || $studentCode === '' ||
-        $address === '' || $admissionNumber === '') {
+        $address === '') {
         $error = 'Please complete all fields.';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = 'Please enter a valid email address.';
     } else {
         // Exclude this row while checking that identifiers belong to no other student.
         $duplicateCheck = $conn->prepare(
-            'SELECT id FROM tbl_students
-             WHERE (admno = ? OR email = ? OR studentId = ?) AND id <> ?'
+            'SELECT id FROM tbl_students WHERE studentId = ? AND id <> ?'
         );
-        $duplicateCheck->bind_param('sssi', $admissionNumber, $email, $studentCode, $studentId);
+        $duplicateCheck->bind_param('si', $studentCode, $studentId);
         $duplicateCheck->execute();
         $duplicateCheck->store_result();
 
         if ($duplicateCheck->num_rows > 0) {
-            $error = 'Another student already uses that Student ID, admission number, or email.';
+            $error = 'Another student already uses that Student Number.';
         }
         $duplicateCheck->close();
 
@@ -60,11 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_student'])) {
             $update = $conn->prepare(
                 'UPDATE tbl_students
                  SET firstname = ?, lastname = ?, dob = ?, gender = ?, email = ?, phone = ?,
-                     grade = ?, studentId = ?, address = ?, admno = ?
+                     grade = ?, studentId = ?, address = ?
                  WHERE id = ?'
             );
             $update->bind_param(
-                'ssssssssssi',
+                'sssssssssi',
                 $firstName,
                 $lastName,
                 $dob,
@@ -74,7 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_student'])) {
                 $grade,
                 $studentCode,
                 $address,
-                $admissionNumber,
                 $studentId
             );
 
@@ -98,7 +95,7 @@ if (!$studentId) {
 
 // Load current database values to prefill the form (or re-display submitted values on error).
 $select = $conn->prepare(
-    'SELECT firstname, lastname, dob, gender, email, phone, grade, studentId, address, admno
+    'SELECT firstname, lastname, dob, gender, email, phone, grade, studentId, address
      FROM tbl_students WHERE id = ?'
 );
 $select->bind_param('i', $studentId);
@@ -175,9 +172,6 @@ function studentField(string $key, array $student): string
         </label>
         <label class="wide">Address
             <textarea name="address" required><?php echo studentField('address', $student); ?></textarea>
-        </label>
-        <label class="wide">Admission Number
-            <input name="admno" value="<?php echo studentField('admno', $student); ?>" required>
         </label>
         <div class="actions wide">
             <button type="submit" name="update_student">Save Changes</button>

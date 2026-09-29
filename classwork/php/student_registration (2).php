@@ -72,7 +72,7 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="student-id">Student ID / Roll Number</label>
+          <label for="student-id">Student Number</label>
           <input type="text" id="student-id" name="studentId" placeholder="e.g., STU-2026-889" required>
         </div>
       </div>
@@ -82,14 +82,6 @@
         <div class="form-group full-width">
           <label for="address">Residential Address</label>
           <textarea id="address" name="address" placeholder="Street name, City, Postal Code" required></textarea>
-        </div>
-      </div>
-
-      <!-- Row 6: Admission Number -->
-      <div class="form-row">
-        <div class="form-group">
-          <label for="admno">Admission Number</label>
-          <input type="text" id="admno" name="admno" placeholder="e.g., ADM-2026-889" required>
         </div>
       </div>
 

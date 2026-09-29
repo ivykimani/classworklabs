@@ -3,7 +3,7 @@
 require __DIR__ . '/../Include/sql.php';
 
 $result = $conn->query(
-    "SELECT firstname, lastname, dob, gender, email, phone, grade, studentId, address, admno
+    "SELECT firstname, lastname, dob, gender, email, phone, grade, studentId, address
      FROM tbl_students
      ORDER BY id DESC"
 );
@@ -68,7 +68,6 @@ $result = $conn->query(
                     <th>Grade</th>
                     <th>Student ID</th>
                     <th>Address</th>
-                    <th>Admission Number</th>
                 </tr>
             </thead>
             <tbody>
@@ -85,7 +84,6 @@ $result = $conn->query(
                         <td><?php echo htmlspecialchars($student['grade']); ?></td>
                         <td><?php echo htmlspecialchars($student['studentId']); ?></td>
                         <td><?php echo htmlspecialchars($student['address']); ?></td>
-                        <td><?php echo htmlspecialchars($student['admno']); ?></td>
                     </tr>
                 <?php endwhile; ?>
             </tbody>

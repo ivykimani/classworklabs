@@ -187,7 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_student'])) {
             <table>
                 <thead>
                     <tr>
-                        <th>Student ID</th>
+                        <th>Student Number</th>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>DOB</th>
@@ -196,7 +196,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_student'])) {
                         <th>Phone</th>
                         <th>Grade Level</th>
                         <th>Residential Address</th>
-                        <th>Admission Number</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -206,7 +205,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_student'])) {
                 // Use a prepared query for one record, or a regular query for the full directory.
                 if ($selectedId) {
                     $statement = $conn->prepare(
-                        'SELECT id, firstname, lastname, dob, gender, email, phone, grade, studentId, address, admno
+                        'SELECT id, firstname, lastname, dob, gender, email, phone, grade, studentId, address
                          FROM tbl_students
                          WHERE id = ?'
                     );
@@ -215,16 +214,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_student'])) {
                     $result = $statement->get_result();
                 } else {
                     $result = $conn->query(
-                        'SELECT id, firstname, lastname, dob, gender, email, phone, grade, studentId, address, admno
+                        'SELECT id, firstname, lastname, dob, gender, email, phone, grade, studentId, address
                          FROM tbl_students
                          ORDER BY id DESC'
                     );
                 }
                 ?>
                 <?php if (!$result): ?>
-                    <tr><td colspan="12">Database query failed: <?php echo htmlspecialchars($conn->error); ?></td></tr>
+                    <tr><td colspan="10">Database query failed: <?php echo htmlspecialchars($conn->error); ?></td></tr>
                 <?php elseif ($result->num_rows === 0): ?>
-                    <tr><td colspan="12">No records found.</td></tr>
+                    <tr><td colspan="10">No records found.</td></tr>
                 <?php else: ?>
                     <?php while ($student = $result->fetch_assoc()): ?>
                         <tr>
@@ -238,7 +237,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_student'])) {
                             <td><?php echo htmlspecialchars($student['phone']); ?></td>
                             <td><?php echo htmlspecialchars($student['grade']); ?></td>
                             <td><?php echo htmlspecialchars($student['address']); ?></td>
-                            <td><?php echo htmlspecialchars($student['admno']); ?></td>
                             <td>
                                 <?php if (!$selectedId): ?>
                                     <a class="btn-action btn-view" href="student_view.php?id=<?php echo (int) $student['id']; ?>">View</a>
