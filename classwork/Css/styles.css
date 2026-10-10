@@ -78,6 +78,7 @@ input[type="text"],
 input[type="email"],
 input[type="tel"],
 input[type="date"],
+input[type="password"],
 select,
 textarea {
   width: 100%;
@@ -96,6 +97,7 @@ input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="tel"]:focus,
 input[type="date"]:focus,
+input[type="password"]:focus,
 select:focus,
 textarea:focus {
   border-color: #3182ce; /* Bright interaction blue */
@@ -112,6 +114,7 @@ textarea {
 select {
   cursor: pointer;
   appearance: none; /* Custom dropdown marker layout handling */
+  background-color: #ffffff;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org' viewBox='0 0 24 24' fill='none' stroke='%234a5568' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 14px center;
@@ -213,3 +216,4 @@ button[type="submit"]:hover {
     width: 100%;
   }
 }
+

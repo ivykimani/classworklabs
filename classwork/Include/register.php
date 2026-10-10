@@ -1,67 +1,123 @@
 <?php
-// Load the shared database connection, which creates the $conn MySQLi object.
-require 'sql.php';
+session_start();
 
-// The form's submit button sends this request using POST.
-if(isset($_POST["submit_student"])) {
-    // Read submitted values and remove extra whitespace from their edges.
-    $fname = trim($_POST["firstName"]);
-    $lname = trim($_POST["lastName"]);
-    $dob = trim($_POST["dob"]);
-    $gender = trim($_POST["gender"]);
-    $email = trim($_POST["email"]);
-    $phone = trim($_POST["phone"]);
-    $grade = trim($_POST["gradeLevel"]);
-    $studentId = trim($_POST["studentId"]);
-    $address = trim($_POST["address"]);
+$formUrl = '../php/student_registration%20%282%29.php';
 
-    // Check that the student number is not already assigned to another record.
-    // A prepared statement keeps submitted values separate from the SQL command.
-    $query = "SELECT id FROM tbl_students WHERE studentId = ?";
-    $stmt1 = $conn->prepare($query);
-
-    // The ? is a placeholder; "s" tells MySQLi the student number is a string.
-    $stmt1->bind_param("s", $studentId);
-
-    // Run the duplicate check and store its rows so num_rows can be checked.
-    $stmt1->execute();
-    $stmt1->store_result();
-
-    // If a row matched, stop so this student number cannot be reused.
-    if($stmt1->num_rows > 0) {
-        echo "<script>alert('A student with this Student Number already exists.');</script>";
-        $stmt1->close();
-        $conn->close();
-        exit();
-    }
-
-    // Release resources used by the duplicate-check statement.
-    $stmt1->close();
-
-    // Insert the validated form data. Each ? corresponds to one column value.
-    $sql = "INSERT INTO tbl_students (firstname, lastname, dob, gender, email, phone, grade, studentId, address) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    // prepare() creates the statement; bind_param() supplies the 9 string values.
-    // This prevents user input from being interpreted as part of the SQL command.
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssssss", $fname, $lname, $dob, $gender, $email, $phone, $grade, $studentId, $address);
-
-    // execute() runs the insert. It returns true on success and false on failure.
-    if($stmt->execute()) {
-        echo "<script>alert('Student registered successfully.');</script>";
-    } else {
-        echo "<script>alert('Error: " . $stmt->error . "');</script>";
-    }
-
-    // Close the prepared statement and database connection when this request is done.
-    $stmt->close();
-    $conn->close();
-
-    // These old calls are unnecessary because execute() and close() already ran above.
-    //$stmt->execute();
-    //$stmt->close();    
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: ' . $formUrl, true, 303);
+    exit();
 }
-?>
+
+unset($_SESSION['registration']);
+
+$fields = [
+    'firstName' => 'First Name',
+    'lastName' => 'Last Name',
+    'dob' => 'Date of Birth',
+    'gender' => 'Gender',
+    'email' => 'Email Address',
+    'phone' => 'Phone Number',
+    'gradeLevel' => 'Grade/Class Level',
+    'studentId' => 'Student Number',
+    'address' => 'Residential Address',
+];
+$values = [];
+$errors = [];
+
+foreach ($fields as $field => $label) {
+    $values[$field] = isset($_POST[$field]) && is_string($_POST[$field])
+        ? trim($_POST[$field]) : '';
+    if ($values[$field] === '') {
+        $errors[$field] = $label . ' is required.';
+    }
+}
+
+$studentPassword = isset($_POST['password']) && is_string($_POST['password'])
+    ? $_POST['password'] : '';
+$confirmPassword = isset($_POST['confirmPassword']) && is_string($_POST['confirmPassword'])
+    ? $_POST['confirmPassword'] : '';
+
+if ($studentPassword === '') {
+    $errors['password'] = 'Password is required.';
+}
+if ($confirmPassword === '') {
+    $errors['confirmPassword'] = 'Confirm Password is required.';
+} elseif ($studentPassword !== $confirmPassword) {
+    $errors['confirmPassword'] = 'Passwords do not match. Please re-enter both passwords.';
+}
+
+if ($values['email'] !== '' && !filter_var($values['email'], FILTER_VALIDATE_EMAIL)) {
+    $errors['email'] = 'Enter a valid Email Address.';
+}
+if ($values['dob'] !== '') {
+    $date = DateTimeImmutable::createFromFormat('!Y-m-d', $values['dob']);
+    if (!$date || $date->format('Y-m-d') !== $values['dob']) {
+        $errors['dob'] = 'Enter a valid Date of Birth.';
+    }
+}
+if ($values['gender'] !== '' && !in_array($values['gender'], ['male', 'female'], true)) {
+    $errors['gender'] = 'Select a valid Gender.';
+}
+if ($values['gradeLevel'] !== '' && !in_array($values['gradeLevel'], ['grade-9', 'grade-10', 'grade-11', 'grade-12'], true)) {
+    $errors['gradeLevel'] = 'Select a valid Grade/Class Level.';
+}
+
+if (!$errors) {
+    $conn = null;
+    $duplicateStatement = null;
+    $insertStatement = null;
+
+    try {
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+        require __DIR__ . '/sql.php';
+
+        if (!($conn instanceof mysqli)) {
+            throw new mysqli_sql_exception('Database connection was not initialized.');
+        }
+
+        $duplicateStatement = $conn->prepare('SELECT id FROM tbl_students WHERE studentId = ?');
+        $duplicateStatement->bind_param('s', $values['studentId']);
+        $duplicateStatement->execute();
+        $duplicateStatement->store_result();
+
+        if ($duplicateStatement->num_rows > 0) {
+            $errors['studentId'] = 'A student with this Student Number already exists.';
+        } else {
+            $passwordHash = password_hash($studentPassword, PASSWORD_DEFAULT);
+            $insertStatement = $conn->prepare(
+                'INSERT INTO tbl_students (firstname, lastname, dob, gender, email, phone, grade, studentId, address, password)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+            );
+            $insertStatement->bind_param(
+                'ssssssssss',
+                $values['firstName'], $values['lastName'], $values['dob'],
+                $values['gender'], $values['email'], $values['phone'],
+                $values['gradeLevel'], $values['studentId'], $values['address'], $passwordHash
+            );
+            $insertStatement->execute();
+            $_SESSION['registration'] = ['success' => 'Student registered successfully.'];
+        }
+    } catch (mysqli_sql_exception $exception) {
+        error_log('Student registration failed: ' . $exception->getMessage());
+        $errors['database'] = 'Unable to save the student. Please try again later.';
+    } finally {
+        if ($duplicateStatement !== null) {
+            $duplicateStatement->close();
+        }
+        if ($insertStatement !== null) {
+            $insertStatement->close();
+        }
+        if ($conn !== null) {
+            $conn->close();
+        }
+    }
+}
+
+if ($errors) {
+    $_SESSION['registration'] = ['errors' => $errors, 'values' => $values];
+}
+
+header('Location: ' . $formUrl, true, 303);
+exit();
 
 

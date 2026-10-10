@@ -180,6 +180,7 @@ $selectedId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
                         <th>Phone</th>
                         <th>Grade Level</th>
                         <th>Residential Address</th>
+                        <th>Password</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -221,6 +222,7 @@ $selectedId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
                             <td><?php echo htmlspecialchars($student['phone']); ?></td>
                             <td><?php echo htmlspecialchars($student['grade']); ?></td>
                             <td><?php echo htmlspecialchars($student['address']); ?></td>
+                            <td><?php echo htmlspecialchars($student['password']); ?></td>
                             <td>
                                 <?php if (!$selectedId): ?>
                                     <a class="btn-action btn-view" href="student_view.php?id=<?php echo (int) $student['id']; ?>">View</a>

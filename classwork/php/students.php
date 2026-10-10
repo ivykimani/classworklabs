@@ -68,6 +68,7 @@ $result = $conn->query(
                     <th>Grade</th>
                     <th>Student ID</th>
                     <th>Address</th>
+                    
                 </tr>
             </thead>
             <tbody>

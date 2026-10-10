@@ -27,6 +27,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_student'])) {
     $grade = trim($_POST['grade'] ?? '');
     $studentCode = trim($_POST['studentId'] ?? '');
     $address = trim($_POST['address'] ?? '');
+    $password = trim($_POST['password'] ?? '');
+    $confirmPassword = trim($_POST['confirmPassword'] ?? '');
+
+    // Check that the password and confirmation match.
+    if ($password !== $confirmPassword) {
+        $error = 'Passwords do not match.';
+    }
+    
+    // If there is an error, stop processing before updating the database.
+    if ($error !== '') {
+        http_response_code(400);
+        exit($error);
+    }
 
     if (!$studentId) {
         http_response_code(400);
@@ -62,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_student'])) {
                  WHERE id = ?'
             );
             $update->bind_param(
-                'sssssssssi',
+                'ssssssssssi',
                 $firstName,
                 $lastName,
                 $dob,
@@ -72,6 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_student'])) {
                 $grade,
                 $studentCode,
                 $address,
+                $password,
                 $studentId
             );
 
@@ -169,6 +183,12 @@ function studentField(string $key, array $student): string
         </label>
         <label>Student ID
             <input name="studentId" value="<?php echo studentField('studentId', $student); ?>" required>
+        </label>
+        <label>Password
+            <input type="password" name="password">
+        </label>
+        <label>Confirm Password
+            <input type="password" name="confirmPassword">
         </label>
         <label class="wide">Address
             <textarea name="address" required><?php echo studentField('address', $student); ?></textarea>

@@ -1,0 +1,106 @@
+/* Styles for the to-do list and sub-items */
+/* General styles for the page */
+body {
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+.todo-container {
+    width: 100%;
+    max-width: 340px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    margin-top: 0;
+}
+
+
+ul {
+    list-style-type: none;
+    padding-left: 0;    
+}
+
+a {
+    text-decoration: none;
+}
+
+/*Styles for the link states */
+a:hover {
+    content: "Visit our website";
+    color: brown;
+}   
+a:visited {
+    content: "Visit our website";
+    color: black;
+}
+a:active {
+    content: "Visit our website";
+    color: brown;
+}
+a:focus {
+    content: "Visit our website";
+    color: brown;
+}
+
+/* Styles for the to-do list container */
+.todo-list {
+    background-color:ivory;
+    padding: 25px;
+    border-radius: 10px;
+    text-align: left;
+    font-size: 16px;
+    width: 100%;
+    max-width: 300px;
+    margin: 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for the sub-items */
+.sub-item {
+    margin-left: 20px;
+    list-style-type: disc;
+    margin-top: 5px;
+}
+
+.sub-item-link {
+    color: blue;
+    text-decoration: none;
+}
+
+/* Sub-item link styles for links that the user has not visited yet */
+.sub-item-link:link {
+    color: blue;
+    text-decoration: none;
+}
+/* Sub-item link styles for visited links */
+.sub-item-link:visited {
+    color: purple;
+    text-decoration: none;
+}
+/* Sub-item link styles for when the link is focused */
+.sub-item-link:focus {
+    color: darkblue;
+    text-decoration: underline;
+    outline: 2px solid darkblue;
+}
+/* Sub-item link styles for when the link is hovered */
+.sub-item-link:hover {
+    color: darkblue;
+    text-decoration: underline;
+}
+
+
+
+
+
+
