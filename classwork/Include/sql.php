@@ -5,6 +5,7 @@ $username = "root";
 $password = "";
 $dbname = "my_school_manager";
 
+
 // Create one MySQLi connection object for files that include this connection file.
 $conn = new mysqli($localhost, $username, $password, $dbname);
 
