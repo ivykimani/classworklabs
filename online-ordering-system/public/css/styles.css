@@ -1,15 +1,21 @@
+/* ==========================================================================
+   1. GLOBAL ENGINE RESETS & BASE PALETTE
+   ========================================================================== */
 body {
     margin: 0;
-    font-family: system-ui, -apple-system, sans-serif;
-    background-color: #f9fafb;
-    color: #111827;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #fcfcfb;
+    color: #1c1c1a;
     line-height: 1.5;
 }
 
-/* Navigation Bar Layout */
+/* ==========================================================================
+   2. UNIFIED NAVIGATION INTERFACE
+   ========================================================================== */
 .navbar {
     background-color: #ffffff;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(27, 27, 24, 0.05);
     padding: 20px 40px;
     display: flex;
     justify-content: space-between;
@@ -18,8 +24,9 @@ body {
 
 .navbar-logo {
     font-size: 1.5rem;
-    font-weight: 700;
-    color: #2563eb;
+    font-weight: 800;
+    color: #dc2626; /* Changed to an appetizing, high-conversion culinary red */
+    letter-spacing: -0.025em;
 }
 
 .navbar-links {
@@ -30,53 +37,55 @@ body {
 
 .nav-link {
     text-decoration: none;
-    color: #4b5563;
+    color: #4b4b43;
     font-weight: 500;
-    transition: color 0.2s;
+    transition: color 0.2s ease;
 }
 
 .nav-link:hover {
-    color: #2563eb;
+    color: #dc2626;
 }
 
 .nav-btn {
-    background-color: #2563eb;
+    background-color: #dc2626;
     color: #ffffff;
     padding: 10px 20px;
     border-radius: 6px;
     text-decoration: none;
     font-weight: 600;
-    transition: background 0.2s;
+    transition: background-color 0.2s ease;
 }
 
 .nav-btn:hover {
-    background-color: #1d4ed8;
+    background-color: #b91c1c;
 }
 
-/* Hero Wrapper */
+/* ==========================================================================
+   3. LANDING HERO WRAPPER
+   ========================================================================== */
 .hero {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 80px 40px;
+    padding: 90px 40px;
     text-align: center;
 }
 
 .hero-title {
     font-size: 3.5rem;
     font-weight: 800;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.03em;
     margin-bottom: 20px;
-    color: #111827;
-    line-height: 1.2;
+    color: #11110f;
+    line-height: 1.15;
 }
 
 .hero-accent {
-    color: #2563eb;
+    color: #dc2626;
 }
 
 .hero-subtitle {
     font-size: 1.25rem;
-    color: #4b5563;
+    color: #57574e;
     max-width: 700px;
     margin: 0 auto 40px auto;
     line-height: 1.7;
@@ -89,42 +98,44 @@ body {
 }
 
 .btn-primary {
-    background-color: #2563eb;
+    background-color: #dc2626;
     color: #ffffff;
     padding: 15px 32px;
     border-radius: 8px;
     text-decoration: none;
     font-weight: 600;
     font-size: 1.1rem;
-    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
-    transition: background 0.2s;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .btn-primary:hover {
-    background-color: #1d4ed8;
+    background-color: #b91c1c;
 }
 
 .btn-secondary {
     background-color: #ffffff;
-    color: #374151;
+    color: #2e2e2a;
     padding: 15px 32px;
     border-radius: 8px;
     text-decoration: none;
     font-weight: 600;
     font-size: 1.1rem;
-    border: 1px solid #d1d5db;
-    transition: background 0.2s;
+    border: 1px solid #e2e2de;
+    transition: background-color 0.2s ease;
 }
 
 .btn-secondary:hover {
-    background-color: #f3f4f6;
+    background-color: #f5f5f4;
 }
 
-/* Features Section Grid */
+/* ==========================================================================
+   4. MARKETING HIGHLIGHTS / FEATURE CARDS
+   ========================================================================== */
 .features-section {
     background-color: #ffffff;
-    border-top: 1px solid #e5e7eb;
-    border-bottom: 1px solid #e5e7eb;
+    border-top: 1px solid #efefe9;
+    border-bottom: 1px solid #efefe9;
     padding: 80px 40px;
 }
 
@@ -135,9 +146,10 @@ body {
 
 .features-heading {
     font-size: 2.25rem;
-    font-weight: 700;
+    font-weight: 800;
     text-align: center;
     margin-bottom: 50px;
+    color: #11110f;
 }
 
 .features-grid {
@@ -147,15 +159,15 @@ body {
 }
 
 .feature-card {
-    padding: 24px;
+    padding: 30px 24px;
     border-radius: 12px;
-    background-color: #f9fafb;
-    border: 1px solid #f3f4f6;
+    background-color: #fcfcfb;
+    border: 1px solid #f1f1eb;
 }
 
 .feature-icon {
-    background-color: #dbeafe;
-    color: #2563eb;
+    background-color: #fef2f2;
+    color: #dc2626;
     width: 48px;
     height: 48px;
     border-radius: 8px;
@@ -163,34 +175,481 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
-    font-weight: bold;
     margin-bottom: 20px;
 }
 
 .feature-title {
     font-size: 1.25rem;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 10px;
+    color: #11110f;
 }
 
 .feature-text {
-    color: #4b5563;
+    color: #57574e;
     margin: 0;
 }
 
-/* Global Footer Layout */
-.footer {
-    background-color: #111827;
-    color: #9ca3af;
-    padding: 40px 40px;
+/* ==========================================================================
+   5. MENU ENGINE GRID (Moved over from products layout block)
+   ========================================================================== */
+.menu-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 40px;
+}
+
+.menu-header {
     text-align: center;
-    font-size: 0.95rem;
+    margin-bottom: 50px;
 }
 
-.footer-text {
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.food-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    border: 1px solid #efefe9;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.food-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px rgba(27, 27, 24, 0.06);
+}
+
+.food-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover; /* Forces the image to fill the space cleanly without distortion */
+    display: block;
+}
+
+.food-info {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.food-title {
+    font-size: 1.25rem;
+    font-weight: 700;
     margin: 0 0 10px 0;
+    color: #11110f;
 }
 
-.footer-subtext {
+.food-description {
+    font-size: 0.95rem;
+    color: #57574e;
+    margin: 0 0 20px 0;
+    flex-grow: 1;
+    line-height: 1.5;
+}
+
+.food-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.food-price {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #dc2626;
+}
+
+.add-to-cart-btn {
+    background-color: #dc2626;
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #b91c1c;
+}
+
+/* ==========================================================================
+   10. MULTI-COLUMN INTERFACE FOOTER EXTENSION
+   ========================================================================== */
+.footer {
+    background-color: #11110f;
+    color: #a1a196;
+    padding: 60px 40px 30px 40px;
+    border-top: 1px solid #232320;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 40px;
+    text-align: left;
+    margin-bottom: 40px;
+}
+
+.footer-brand-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #a1a196;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+.footer-socials {
+    display: flex;
+    gap: 15px;
+}
+
+.social-link {
+    text-decoration: none;
+    font-size: 1.3rem;
+    transition: transform 0.2s ease;
+}
+
+.social-link:hover {
+    transform: scale(1.15);
+}
+
+.footer-heading {
+    color: #ffffff;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+}
+
+.footer-links-list {
+    list-style: none;
+    padding: 0;
     margin: 0;
 }
+
+.footer-links-list li {
+    margin-bottom: 12px;
+}
+
+.footer-links-list a {
+    color: #a1a196;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+}
+
+.footer-links-list a:hover {
+    color: #dc2626; /* Matches appetizing conversion red */
+}
+
+.footer-info-item {
+    font-size: 0.95rem;
+    margin: 0 0 12px 0;
+    color: #a1a196;
+}
+
+.footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 30px;
+    border-top: 1px solid #232320;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* Responsiveness for Smaller Screen Display engines */
+@media (max-width: 768px) {
+    .footer {
+        padding: 40px 20px 20px 20px;
+    }
+    
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
+    }
+    
+    .footer-brand-text {
+        margin: 0 auto 20px auto;
+    }
+    
+    .footer-socials {
+        justify-content: center;
+    }
+}
+
+/* ==========================================================================
+   7. CUSTOM INFORMATION PAGES STRUCTURE (About & Contact Extensions)
+   ========================================================================== */
+.info-page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 40px;
+}
+
+.info-page-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.info-page-title {
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 15px;
+    color: #11110f;
+    line-height: 1.15;
+}
+
+.info-page-subtitle {
+    font-size: 1.2rem;
+    color: #57574e;
+    max-width: 650px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.info-page-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.info-section {
+    margin-bottom: 50px;
+}
+
+.info-section-heading {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    color: #11110f;
+    letter-spacing: -0.02em;
+}
+
+.info-lead-text {
+    font-size: 1.15rem;
+    color: #1c1c1a;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+/* Custom Checkmark System for Features List */
+.custom-features-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.custom-features-list li {
+    margin-bottom: 20px;
+    padding-left: 28px;
+    position: relative;
+    color: #57574e;
+}
+
+.custom-features-list li strong {
+    color: #11110f;
+}
+
+.custom-features-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #dc2626; /* Matches your high-conversion culinary red */
+    font-weight: 800;
+    font-size: 1.1rem;
+}
+
+/* Split Column Interface for Contact Grid */
+.contact-split-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .contact-split-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
+.contact-info-block {
+    margin-top: 30px;
+}
+
+.contact-block-label {
+    display: block;
+    color: #11110f;
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+}
+
+.contact-email-link {
+    color: #dc2626;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.contact-email-link:hover {
+    color: #b91c1c;
+    text-decoration: underline;
+}
+
+.contact-hours-text {
+    display: block;
+    color: #1c1c1a;
+    font-weight: 500;
+}
+
+.contact-block-subtext {
+    display: block;
+    font-size: 0.9rem;
+    color: #787870;
+    margin-top: 4px;
+}
+
+/* Input Engines & Styled Interface Form */
+.styled-contact-form {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid #efefe9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.01);
+}
+
+.custom-form-group {
+    margin-bottom: 20px;
+}
+
+.custom-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #11110f;
+}
+
+.custom-form-group input, 
+.custom-form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e2e2de;
+    border-radius: 6px;
+    background-color: #fcfcfb;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: #1c1c1a;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+}
+
+.custom-form-group input::placeholder, 
+.custom-form-group textarea::placeholder {
+    color: #a1a196;
+}
+
+.custom-form-group input:focus, 
+.custom-form-group textarea:focus {
+    outline: none;
+    border-color: #dc2626;
+    background-color: #ffffff;
+}
+
+.custom-form-group textarea {
+    resize: vertical;
+}
+
+.contact-submit-btn {
+    background-color: #dc2626;
+    color: #ffffff;
+    padding: 14px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s ease;
+}
+
+.contact-submit-btn:hover {
+    background-color: #b91c1c;
+}
+/* ==========================================================================
+   9. UNIFIED SHOPPING CART INTERFACE STYLE
+   ========================================================================== */
+.cart-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #dc2626;
+    color: #ffffff;
+}
+
+.cart-icon {
+    font-size: 1.1rem;
+}
+
+.cart-badge {
+    background-color: #ffffff;
+    color: #dc2626;
+    font-size: 0.8rem;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 20px;
+    margin-left: 4px;
+    min-width: 12px;
+    text-align: center;
+}
+
+/* Responsive updates for the cart elements */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px 20px;
+    }
+
+    .navbar-links {
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .nav-link {
+        display: block;
+        text-align: center;
+        padding: 6px 0;
+    }
+
+    .cart-btn {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 12px;
+    }
+}
+
+
