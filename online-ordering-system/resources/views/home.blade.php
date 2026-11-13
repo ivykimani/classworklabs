@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Tasty Eats</title>
     <!-- Standard relative link to your external stylesheet -->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
+
 <body>
 
     <!-- Navigation Bar -->
@@ -19,9 +21,10 @@
             <a href="/about-us" class="nav-link">About Us</a>
             <a href="/contact-us" class="nav-link">Contact</a>
             <a href="/menu" class="nav-link">Our Menu</a>
-            <a href="#" class="nav-btn cart-btn">
-              <span class="cart-icon">🛒</span> Cart <span class="cart-badge">0</span>
+            <a href="#" id="cart-toggle" class="nav-btn cart-btn">
+                <span class="cart-icon">🛒</span> Cart <span id="cart-badge" class="cart-badge">0</span>
             </a>
+
         </div>
     </nav>
 
@@ -31,7 +34,8 @@
             Delicious Meals Delivered Straight To <span class="hero-accent">Your Doorstep</span>
         </h1>
         <p class="hero-subtitle">
-            Satisfy your cravings with handpicked local ingredients, freshly prepared dishes, and lightning-fast local delivery architectures.
+            Satisfy your cravings with handpicked local ingredients, freshly prepared dishes, and lightning-fast local
+            delivery architectures.
         </p>
         <div class="hero-actions">
             <a href="/menu" class="btn-primary">Explore Menu</a>
@@ -43,31 +47,37 @@
     <section id="features" class="features-section">
         <div class="features-container">
             <h2 class="features-heading">Why Order From Tasty Eats</h2>
-            
+
             <div class="features-grid">
                 <!-- Feature 1 -->
                 <div class="feature-card">
                     <div class="feature-icon">🍳</div>
                     <h3 class="feature-title">Fresh Ingredients</h3>
-                    <p class="feature-text">We source premium produce and choice ingredients daily from trusted partners to guarantee fresh flavors.</p>
+                    <p class="feature-text">We source premium produce and choice ingredients daily from trusted partners
+                        to guarantee fresh flavors.</p>
                 </div>
 
                 <!-- Feature 2 -->
                 <div class="feature-card">
                     <div class="feature-icon">🛡️</div>
                     <h3 class="feature-title">Hygiene Certified</h3>
-                    <p class="feature-text">Industry-leading safety protocols, secure handling, and clean kitchen validation keep your meals safe.</p>
+                    <p class="feature-text">Industry-leading safety protocols, secure handling, and clean kitchen
+                        validation keep your meals safe.</p>
                 </div>
 
                 <!-- Feature 3 -->
                 <div class="feature-card">
                     <div class="feature-icon">⚡</div>
                     <h3 class="feature-title">Express Delivery</h3>
-                    <p class="feature-text">Streamlined dispatching routing minimizes transit times to ensure your food arrives piping hot.</p>
+                    <p class="feature-text">Streamlined dispatching routing minimizes transit times to ensure your food
+                        arrives piping hot.</p>
                 </div>
             </div>
         </div>
     </section>
+
+    <script src="js/cart.js"></script>
+
 
     <!-- Footer -->
     <footer class="footer">
@@ -75,7 +85,8 @@
             <!-- Brand Column -->
             <div class="footer-brand-column">
                 <div class="navbar-logo" style="padding: 0; margin-bottom: 15px;">Tasty Eats</div>
-                <p class="footer-brand-text">Freshly prepared local dishes delivered hot, fresh, and straight to your doorstep across Nairobi and its environs.</p>
+                <p class="footer-brand-text">Freshly prepared local dishes delivered hot, fresh, and straight to your
+                    doorstep across Nairobi and its environs.</p>
                 <div class="footer-socials">
                     <a href="#" class="social-link">📘</a>
                     <a href="#" class="social-link">📸</a>
@@ -111,4 +122,5 @@
         </div>
     </footer>
 </body>
+
 </html>
