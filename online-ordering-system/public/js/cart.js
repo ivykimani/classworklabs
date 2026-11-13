@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. INITIALIZE STATE: Load saved items from localStorage or start empty
     let cart = JSON.parse(localStorage.getItem('tasty_eats_cart')) || [];
 
-    // DOM Target Node Mapping
     const cartToggle = document.getElementById('cart-toggle');
     const cartSidebar = document.getElementById('cart-sidebar');
     const closeCart = document.getElementById('close-cart');
@@ -11,44 +9,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartItemsContainer = document.getElementById('cart-items-container');
     const cartTotalPrice = document.getElementById('cart-total-price');
     const addToOrderButtons = document.querySelectorAll('.add-to-cart-btn');
+    const checkoutBtn = document.getElementById('checkout-btn');
 
-    // Run immediately on page load to restore items if they exist
     renderCartUI();
 
-    // 2. OPEN & CLOSE CONNECTIONS
-    cartToggle.addEventListener('click', (e) => {
-        e.preventDefault();
-        cartSidebar.classList.add('active');
-        cartOverlay.classList.add('active');
-    });
-
-    const hideCartDrawer = () => {
-        cartSidebar.classList.remove('active');
-        cartOverlay.classList.remove('active');
-    };
-
-    closeCart.addEventListener('click', hideCartDrawer);
-    cartOverlay.addEventListener('click', hideCartDrawer);
-
-    // 3. PARSE VALUES FROM SELECTED ELEMENT ROW
-    addToOrderButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            const foodCard = e.target.closest('.food-card');
-            const name = foodCard.querySelector('.food-title').textContent.trim();
-            const priceText = foodCard.querySelector('.food-price').textContent.trim();
-            
-            // Isolates numbers from text string labels (e.g., KES 1,200 -> 1200)
-            const price = parseInt(priceText.replace(/[^0-9]/g, ''), 10);
-
-            addItemToCart(name, price);
-            
-            // Slide sidebar out automatically to indicate action success
+    // 1. SAFE DRAWER OPEN / CLOSE CONTROLS
+    if (cartToggle && cartSidebar && cartOverlay) {
+        cartToggle.addEventListener('click', (e) => {
+            e.preventDefault();
             cartSidebar.classList.add('active');
             cartOverlay.classList.add('active');
         });
+    }
+
+    const hideCartDrawer = () => {
+        if (cartSidebar) cartSidebar.classList.remove('active');
+        if (cartOverlay) cartOverlay.classList.remove('active');
+    };
+
+    if (closeCart) closeCart.addEventListener('click', hideCartDrawer);
+    if (cartOverlay) cartOverlay.addEventListener('click', hideCartDrawer);
+
+    // 2. ADD DISHES TO CART
+    addToOrderButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const foodCard = e.target.closest('.food-card');
+            if (!foodCard) return;
+
+            const name = foodCard.querySelector('.food-title').textContent.trim();
+            const priceText = foodCard.querySelector('.food-price').textContent.trim();
+            const price = parseInt(priceText.replace(/[^0-9]/g, ''), 10);
+
+            addItemToCart(name, price);
+
+            if (cartSidebar && cartOverlay) {
+                cartSidebar.classList.add('active');
+                cartOverlay.classList.add('active');
+            }
+        });
     });
 
-    // 4. ARRAY STATE INSTANCE CONTROLLERS
     function addItemToCart(name, price) {
         const existingItem = cart.find(item => item.name === name);
         if (existingItem) {
@@ -56,30 +56,43 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             cart.push({ name, price, quantity: 1 });
         }
-        
-        // Save to local storage after adding an item
         saveCartToStorage();
         renderCartUI();
     }
 
-    // 5. ATTACH REMOVAL ALGORITHM TO GLOBAL RUNTIME WINDOW CONTEXT
-    window.removeItemFromCart = function(name) {
-        cart = cart.filter(item => item.name !== name);
-        
-        // Save to local storage after removing an item
+    // 3. CHANGE QUANTITY OR REMOVE DISH FROM CART
+    window.updateItemQuantity = function(name, change) {
+        const item = cart.find(i => i.name === name);
+        if (!item) return;
+
+        item.quantity += change;
+
+        if (item.quantity <= 0) {
+            cart = cart.filter(i => i.name !== name);
+        }
+
         saveCartToStorage();
         renderCartUI();
     };
 
-    // 6. PERSISTENCE PERSIST ENGINE
+    window.removeItemFromCart = function(name) {
+        cart = cart.filter(item => item.name !== name);
+        saveCartToStorage();
+        renderCartUI();
+    };
+
     function saveCartToStorage() {
         localStorage.setItem('tasty_eats_cart', JSON.stringify(cart));
     }
 
-    // 7. SYNCHRONIZE AND DISPLAY RENDER STATE CHANGES
+    // 4. UPDATE NAVBAR BADGE & SIDEBAR UI
     function renderCartUI() {
         const totalItemsCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-        cartBadge.textContent = totalItemsCount;
+        if (cartBadge) {
+            cartBadge.textContent = totalItemsCount;
+        }
+
+        if (!cartItemsContainer || !cartTotalPrice) return;
 
         cartItemsContainer.innerHTML = '';
 
@@ -99,9 +112,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="cart-item-row">
                     <div class="cart-item-details">
                         <h4>${item.name}</h4>
-                        <span>${item.quantity} x KES ${item.price.toLocaleString()}</span>
+                        <span>KES ${item.price.toLocaleString()} each</span>
+                        <div class="qty-controls">
+                            <button type="button" class="qty-btn" onclick="updateItemQuantity('${item.name}', -1)">−</button>
+                            <span class="qty-value">${item.quantity}</span>
+                            <button type="button" class="qty-btn" onclick="updateItemQuantity('${item.name}', 1)">+</button>
+                        </div>
                     </div>
-                    <button class="remove-item-btn" onclick="removeItemFromCart('${item.name}')">Remove</button>
+                    <div style="text-align: right;">
+                        <strong style="display: block; margin-bottom: 6px;">KES ${rowCost.toLocaleString()}</strong>
+                        <button type="button" class="remove-item-btn" onclick="removeItemFromCart('${item.name}')">Remove</button>
+                    </div>
                 </div>
             `;
             cartItemsContainer.insertAdjacentHTML('beforeend', itemRowHTML);
@@ -109,5 +130,72 @@ document.addEventListener('DOMContentLoaded', () => {
 
         cartTotalPrice.textContent = `KES ${totalCalculatedSpend.toLocaleString()}`;
     }
-});
 
+    // 5. CHECKOUT SUBMISSION TO LARAVEL BACKEND
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', async () => {
+            if (cart.length === 0) {
+                alert('Your cart is empty! Please add a dish before checking out.');
+                return;
+            }
+
+            const nameInput = document.getElementById('customer-name');
+            const phoneInput = document.getElementById('customer-phone');
+            const customerName = nameInput ? nameInput.value.trim() : '';
+            const customerPhone = phoneInput ? phoneInput.value.trim() : '';
+
+            if (!customerName || !customerPhone) {
+                alert('Please enter your name and phone number so we can deliver your order.');
+                return;
+            }
+
+            const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+            if (!csrfMeta) {
+                alert('Security token missing. Please ensure the csrf-token meta tag is in your page head.');
+                return;
+            }
+
+            const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const csrfToken = csrfMeta.getAttribute('content');
+
+            checkoutBtn.disabled = true;
+            checkoutBtn.textContent = 'Placing Order...';
+
+            try {
+                const response = await fetch('/checkout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({
+                        customer_name: customerName,
+                        customer_phone: customerPhone,
+                        items: cart,
+                        total_amount: totalAmount
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    alert(data.message);
+                    cart = [];
+                    saveCartToStorage();
+                    renderCartUI();
+                    if (nameInput) nameInput.value = '';
+                    if (phoneInput) phoneInput.value = '';
+                    hideCartDrawer();
+                } else {
+                    alert(data.message || 'Error placing order. Please check your details and try again.');
+                }
+            } catch (error) {
+                alert('Network error. Make sure your server is running.');
+            } finally {
+                checkoutBtn.disabled = false;
+                checkoutBtn.textContent = 'Proceed to Checkout';
+            }
+        });
+    }
+});

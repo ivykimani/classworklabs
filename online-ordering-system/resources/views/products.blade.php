@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Our Menu | Tasty Eats</title>
     <!-- Standard link to your external unified stylesheet -->
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
@@ -33,7 +34,7 @@
             <h1 class="hero-title">Explore Our <span class="hero-accent">Delicious Menu</span></h1>
             <p class="menu-subtitle">Freshly prepared dishes delivered hot and fast.</p>
         </header>
-        
+
         <div class="menu-grid">
             @foreach ($items as $item)
                 <div class="food-card">
@@ -190,17 +191,24 @@
         </div>
 
         <!-- Dynamic Cart Item Target Container -->
-        <div id="cart-items-container" class="cart-items-body">
-            <p class="empty-cart-text">Your cart is currently empty.</p>
-        </div>
+            <div id="cart-items-container" class="cart-items-body">
+              <p class="empty-cart-text">Your cart is currently empty.</p>
+            </div>
+            
+            <div class="cart-sidebar-footer">
+            <div class="custom-form-group" style="margin-bottom: 12px;">
+                <input type="text" id="customer-name" placeholder="Your Full Name" required>
+            </div>
 
-        <div class="cart-sidebar-footer">
+            <div class="custom-form-group" style="margin-bottom: 15px;">
+                <input type="tel" id="customer-phone" placeholder="Phone Number (e.g., 0712345678)" required>
+            </div>
+
             <div class="cart-total-row">
                 <span>Total:</span>
                 <span id="cart-total-price">KES 0</span>
             </div>
-            <!-- Repaired the broken open-tag syntax down here -->
-            <button class="checkout-submit-btn">Proceed to Checkout</button>
+            <button type="button" id="checkout-btn" class="checkout-submit-btn">Proceed to Checkout</button>
         </div>
     </div>
 

@@ -810,4 +810,38 @@ body {
     }
 }
 
+/* ==========================================================================
+   9. QUANTITY CONTROLS
+   ========================================================================== */
+
+.qty-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.qty-btn {
+    background-color: #f1f1eb;
+    border: 1px solid #e2e2de;
+    color: #11110f;
+    width: 26px;
+    height: 26px;
+    border-radius: 4px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.qty-btn:hover {
+    background-color: #dc2626;
+    color: #ffffff;
+    border-color: #dc2626;
+}
+
+.qty-value {
+    font-weight: 700;
+    color: #11110f !important;
+    min-width: 18px;
+    text-align: center;
+}
 
